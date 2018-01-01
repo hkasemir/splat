@@ -11,18 +11,34 @@ const StyledButton = styled.TouchableOpacity`
   margin: 8px;
 `;
 
-export default function DeckView({navigation}) {
-  const {deck} = navigation.state.params;
-  return (
-    <View>
-      <Text>Deck View {deck}</Text>
-      <StyledButton onPress={() => navigation.navigate('Quiz', {deck})}>
-        <Text>Start Quiz</Text>
-      </StyledButton>
-      <StyledButton onPress={() => navigation.navigate('NewQuestion', {deck})}>
-        <Text>Add Question</Text>
-      </StyledButton>
-    </View>
-  );
-}
+export default class DeckView extends React.Component {
+  static navigationOptions = ({navigation}) => {
+    const {deck} = navigation.state.params;
+    return {
+      title: `${deck.title}`
+    };
+  }
 
+  render() {
+    const {
+      navigation: {
+        navigate,
+        state: {
+          params: {
+            deck
+          }
+        }
+      }
+    } = this.props;
+    return (
+      <View>
+        <StyledButton onPress={() => navigate('Quiz', {deck})}>
+          <Text>Start Quiz</Text>
+        </StyledButton>
+        <StyledButton onPress={() => navigate('NewQuestion', {deck})}>
+          <Text>Add Question</Text>
+        </StyledButton>
+      </View>
+    );
+  }
+}

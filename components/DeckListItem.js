@@ -14,8 +14,8 @@ const DeckCard = styled.TouchableOpacity`
 export default function DeckListItem ({onPress, deck}) {
   return (
     <DeckCard onPress={() => onPress(deck)}>
-      <Text>{deck}</Text>
-      <Text>3 cards</Text>
+      <Text>{deck.title}</Text>
+      <Text>{deck.questions.length} cards</Text>
     </DeckCard>
   );
 }
