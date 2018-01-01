@@ -1,7 +1,9 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {KeyboardAvoidingView} from 'react-native';
 import styled from 'styled-components/native';
 import storageHelper from '../helpers/storage-helper';
+import {addCard} from '../actions';
 
 const QuestionInput = styled.TextInput`
   align-self: stretch;
@@ -25,6 +27,7 @@ const SubmitText = styled.Text`
   font-size: 20px;
 `;
 
+@connect()
 export default class NewQuestion extends React.Component {
   state = {
     question: '',
@@ -43,6 +46,7 @@ export default class NewQuestion extends React.Component {
     const {question, answer} = this.state;
     storageHelper.addCardToDeck(deck, {question, answer})
     .then(() => {
+      this.props.dispatch(addCard({question, answer}, deck));
       this.setState({
         question: '',
         answer: ''

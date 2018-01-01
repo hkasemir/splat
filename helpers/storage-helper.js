@@ -39,7 +39,6 @@ export default {
       const decks = JSON.parse(results);
       return decks[key];
     })
-    // : take in a single id argument and return the deck associated with that id. 
   },
   saveDeckTitle(title) {
     return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify({
