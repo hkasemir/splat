@@ -1,7 +1,9 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {KeyboardAvoidingView} from 'react-native';
 import styled from 'styled-components/native';
-import storageHelper from '../helpers/storage-helper';
+import storageHelper, {createDeck} from '../helpers/storage-helper';
+import {addDeck} from '../actions';
 
 const TitleInput = styled.TextInput`
   align-self: stretch;
@@ -25,6 +27,7 @@ const SubmitText = styled.Text`
   font-size: 20px;
 `;
 
+@connect()
 export default class NewDeck extends React.Component {
   state = {
     title: ''
@@ -32,10 +35,11 @@ export default class NewDeck extends React.Component {
 
   handleSubmit = () => {
     const {title} = this.state;
-    storageHelper.saveDeckTitle(title)
-    .then(() => {
-      this.setState({title: ''});
-      this.props.navigation.navigate('DeckView', {deck: title});
+    this.setState({title: ''});
+    storageHelper.saveDeckTitle(title).then(() => {
+      const deck = createDeck(title);
+      this.props.dispatch(addDeck(deck));
+      this.props.navigation.navigate('DeckView', {deck});
     });
   }
 

@@ -19,6 +19,13 @@ import { AsyncStorage } from 'react-native';
 
 const STORAGE_KEY = 'STUDY_BUDDY_STORAGE_KEY';
 
+export function createDeck(title) {
+  return {
+    title,
+    questions: []
+  };
+}
+
 export default {
   getDecks() {
     return AsyncStorage.getItem(STORAGE_KEY)
@@ -36,10 +43,7 @@ export default {
   },
   saveDeckTitle(title) {
     return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify({
-      [title]: {
-        title,
-        questions: []
-      }
+      [title]: createDeck(title)
     }));
   },
   addCardToDeck(deck, card) {
