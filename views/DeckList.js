@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {FlatList} from 'react-native';
-import HomeView from '../components/HomeView';
+import {FlatList, Animated, StyleSheet} from 'react-native';
 import DeckListItem from '../components/DeckListItem.js';
 import storageHelper from '../helpers/storage-helper';
 import {receiveDecks} from '../actions';
@@ -16,28 +15,59 @@ export default class DeckList extends React.Component {
     decks: {}
   }
 
+  state = {
+    animOpacity: new Animated.Value(1)
+  }
+
   componentDidMount() {
     storageHelper.getDecks().then(decks => {
       this.props.dispatch(receiveDecks(decks));
     });
   }
 
+  animateThenNavigate = (deck) => {
+    const {navigation} = this.props;
+    const {animOpacity} = this.state;
+
+    Animated.timing(
+      animOpacity,
+      {toValue: 0}
+    ).start(() => {
+      navigation.navigate('DeckView', {deck})
+      Animated.timing(
+        animOpacity,
+        {toValue: 1}
+      ).start()
+    });
+  }
+
   renderDeckListItem = ({item}) => {
     const {decks, navigation} = this.props;
-    return <DeckListItem key={item} deck={decks[item]} onPress={(deck) => navigation.navigate('DeckView', {deck})}/>
+    return <DeckListItem key={item} deck={decks[item]} onPress={this.animateThenNavigate}/>
   }
 
   render() {
     const {decks} = this.props;
+    const {animOpacity} = this.state;
     const deckNames = Object.keys(decks);
     return (
-      <HomeView>
+      <Animated.View style={[styles.homeView, {opacity: animOpacity}]}>
         <FlatList
           style={{alignSelf: 'stretch'}}
           data={deckNames}
           renderItem={this.renderDeckListItem}
         />
-      </HomeView>
+      </Animated.View>
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  homeView: {
+    flex: 1,
+    backgroundColor: '#eee',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  }
+});
