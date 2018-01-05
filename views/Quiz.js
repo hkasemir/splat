@@ -14,6 +14,12 @@ const Legend = styled.Text`
   align-self: center;
 `;
 
+const defaultState = {
+  questionIndex: 0,
+  correctTally: 0,
+  finished: false
+};
+
 const mapStateToProps = (state) => ({
   decks: state.decks
 });
@@ -27,10 +33,10 @@ export default class Quiz extends React.Component {
     };
   }
 
-  state = {
-    questionIndex: 0,
-    correctTally: 0,
-    finished: false
+  state = defaultState
+
+  handleStartNewQuiz = () => {
+    this.setState(defaultState);
   }
 
   handleCorrect = () => {
@@ -64,7 +70,12 @@ export default class Quiz extends React.Component {
       <View>
         { finished
           ?
-          <Text>Done! {correctTally} correct</Text>
+          <QuizResult
+            correctTally={correctTally}
+            questionCount={deck.questions.length}
+            onStartOver={this.handleStartNewQuiz}
+            onGoBack={() => this.props.navigation.goBack()}
+          />
           :
           <View>
             <QuizCard
