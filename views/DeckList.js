@@ -56,6 +56,7 @@ export default class DeckList extends React.Component {
           style={{alignSelf: 'stretch'}}
           data={deckNames}
           renderItem={this.renderDeckListItem}
+          keyExtractor={item => item}
         />
       </Animated.View>
     );

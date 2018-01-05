@@ -11,7 +11,7 @@ const DeckCard = styled.TouchableOpacity`
   margin: 8px;
 `;
 
-export default function DeckListItem ({onPress, deck}) {
+export default function DeckListItem({onPress, deck}) {
   return (
     <DeckCard onPress={() => onPress(deck)}>
       <Text>{deck.title}</Text>
