@@ -5,6 +5,7 @@ import reducer from './reducers';
 import {View, StatusBar} from 'react-native';
 import Stack from './components/Stack';
 import {Constants} from 'expo';
+import {setLocalNotification} from './helpers/notification-helper';
 
 function CustomStatusBar ({backgroundColor, ...props}) {
   return (
@@ -16,6 +17,10 @@ function CustomStatusBar ({backgroundColor, ...props}) {
 
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     return (
       <Provider store={createStore(reducer)}>

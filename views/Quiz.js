@@ -1,6 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {View, Text} from 'react-native';
+import {
+  clearLocalNotification,
+  setLocalNotification
+} from '../helpers/notification-helper';
 
 const mapStateToProps = (state) => ({
   decks: state.decks
@@ -14,6 +18,8 @@ export default class Quiz extends React.Component {
       title: `${deck.title} quiz`
     };
   }
+
+  // if the user completes a quiz, clear notifications and set a new one up for tomorrow
 
   render() {
     const {title} = this.props.navigation.state.params.deck;
