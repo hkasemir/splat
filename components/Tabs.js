@@ -1,4 +1,4 @@
-import { TabNavigator } from 'react-navigation';
+import {TabNavigator} from 'react-navigation';
 import DeckList from '../views/DeckList';
 import NewDeck from '../views/NewDeck';
 

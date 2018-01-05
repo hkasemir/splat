@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import QuizCard from '../components/QuizCard';
 import QuizResult from '../components/QuizResult';
 import {
@@ -50,6 +50,8 @@ export default class Quiz extends React.Component {
     const {questionIndex} = this.state;
 
     if (questionIndex === deck.questions.length - 1) {
+      // if the user completes a quiz, clear notifications and set a new one up for tomorrow
+      clearLocalNotification().then(() => setLocalNotification());
       this.setState({
         questionIndex: 0,
         finished: true
@@ -58,8 +60,6 @@ export default class Quiz extends React.Component {
       this.setState(prevState => ({questionIndex: prevState.questionIndex + 1}));
     }
   }
-
-  // if the user completes a quiz, clear notifications and set a new one up for tomorrow
 
   render() {
     const {title} = this.props.navigation.state.params.deck;

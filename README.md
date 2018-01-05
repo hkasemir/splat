@@ -1,3 +1,12 @@
+# Study Buddy
+A React Native application (tested only for android, on my own device) that allows you to create decks of flash cards that you can use to study with!
+
+To run, simply clone the repo, install packages with `npm start` and follow instructions to run on your own device using the Expo app.
+
+
+
+
+
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
