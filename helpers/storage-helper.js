@@ -30,7 +30,7 @@ export default {
   getDecks() {
     return AsyncStorage.getItem(STORAGE_KEY)
     .then((results) => {
-      return JSON.parse(results);
+      return JSON.parse(results) || {};
     });
   },
   getDeck(title) {

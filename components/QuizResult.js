@@ -30,8 +30,8 @@ export default function QuizResult({onStartOver, onGoBack, correctTally, questio
   return (
     <Card>
       <Question>{correctTally} out of {questionCount} correct!</Question>
-      <AnswerButton onPress={onStartOver}><Text>Try Again</Text></AnswerButton>
-      <AnswerButton onPress={onGoBack}><Text>Go Back</Text></AnswerButton>
+      <AnswerButton onPress={onStartOver}><Text>Take the quiz again</Text></AnswerButton>
+      <AnswerButton onPress={onGoBack}><Text>Back to deck</Text></AnswerButton>
     </Card>
   );
 }

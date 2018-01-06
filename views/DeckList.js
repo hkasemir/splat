@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {FlatList, Animated, StyleSheet} from 'react-native';
+import {View, Text, FlatList, Animated, StyleSheet} from 'react-native';
 import DeckListItem from '../components/DeckListItem.js';
 import storageHelper from '../helpers/storage-helper';
 import {receiveDecks} from '../actions';
@@ -50,6 +50,14 @@ export default class DeckList extends React.Component {
     const {decks} = this.props;
     const {animOpacity} = this.state;
     const deckNames = Object.keys(decks);
+    if (deckNames.length === 0) {
+      return (
+        <View style={styles.homeView}>
+          <Text style={styles.emptyText}>No Decks Yet!</Text>
+          <Text style={styles.emptyText}>Add one by selecting 'New Deck'</Text>
+        </View>
+      )
+    }
     return (
       <Animated.View style={[styles.homeView, {opacity: animOpacity}]}>
         <FlatList
@@ -70,5 +78,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     alignItems: 'center',
     justifyContent: 'flex-start',
+  },
+  emptyText: {
+    fontSize: 20,
+    alignSelf: 'center',
+    marginTop: 30,
+    color: 'gray'
   }
 });

@@ -53,13 +53,16 @@ export default class DeckView extends React.Component {
       decks
     } = this.props;
     const deck = decks[title];
+    const numQuestions = deck.questions.length;
     return (
       <View>
         <Title>{title}</Title>
-        <SubTitle>{deck.questions.length} questions</SubTitle>
-        <StyledButton onPress={() => navigate('Quiz', {deck})}>
-          <Text>Start Quiz</Text>
-        </StyledButton>
+        <SubTitle>{numQuestions} questions</SubTitle>
+        { numQuestions > 0 &&
+          <StyledButton onPress={() => navigate('Quiz', {deck})}>
+            <Text>Start Quiz</Text>
+          </StyledButton>
+        }
         <StyledButton onPress={() => navigate('NewQuestion', {deck})}>
           <Text>Add Question</Text>
         </StyledButton>
