@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import {View, Text} from 'react-native';
+import {makeExerciseKey} from '../helpers/storage-helper';
 import styled from 'styled-components/native';
 
 const StyledButton = styled.TouchableOpacity`
@@ -26,15 +27,15 @@ const SubTitle = styled.Text`
 `;
 
 const mapStateToProps = (state) => ({
-  decks: state.decks
+  exercises: state.exercises
 });
 
 @connect(mapStateToProps)
-export default class DeckView extends React.Component {
+export default class ExerciseView extends React.Component {
   static navigationOptions = ({navigation}) => {
-    const {deck} = navigation.state.params;
+    const {exercise} = navigation.state.params;
     return {
-      title: `${deck.title}`
+      title: `${exercise.title}`
     };
   }
 
@@ -44,27 +45,26 @@ export default class DeckView extends React.Component {
         navigate,
         state: {
           params: {
-            deck: {
+            exercise: {
               title
             }
           }
         }
       },
-      decks
+      exercises
     } = this.props;
-    const deck = decks[title];
-    const numQuestions = deck.questions.length;
+    const exercise = exercises[makeExerciseKey(title)];
     return (
       <View>
         <Title>{title}</Title>
-        <SubTitle>{numQuestions} questions</SubTitle>
-        { numQuestions > 0 &&
-          <StyledButton onPress={() => navigate('Quiz', {deck})}>
-            <Text>Start Quiz</Text>
+        <SubTitle>{exercise.best || 'No measurements recorded'}</SubTitle>
+        { exercise.best &&
+          <StyledButton onPress={() => navigate('Split', {exercise})}>
+            <Text>Split</Text>
           </StyledButton>
         }
-        <StyledButton onPress={() => navigate('NewQuestion', {deck})}>
-          <Text>Add Question</Text>
+        <StyledButton onPress={() => navigate('NewMeasurement', {exercise})}>
+          <Text>Add Measurement</Text>
         </StyledButton>
       </View>
     );

@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import {KeyboardAvoidingView} from 'react-native';
 import styled from 'styled-components/native';
 import storageHelper from '../helpers/storage-helper';
-import {addCard} from '../actions';
+import {addMeasurement} from '../actions';
 
-const QuestionInput = styled.TextInput`
+const MeasurementInput = styled.TextInput`
   align-self: stretch;
   margin: 20px;
   padding: 10px;
@@ -27,26 +27,29 @@ const SubmitText = styled.Text`
   font-size: 20px;
 `;
 
-@connect()
-export default class NewQuestion extends React.Component {
+const mapDispatchToProps = {
+  addMeasurement
+};
+
+@connect(null, mapDispatchToProps)
+export default class NewMeasurement extends React.Component {
   state = {
-    question: '',
-    answer: ''
+    note: '',
+    measure: ''
   }
 
   static navigationOptions = ({navigation}) => {
-    const {deck} = navigation.state.params;
+    const {exercise} = navigation.state.params;
     return {
-      title: `Add question to ${deck.title}`
+      title: `Add measure to ${exercise.title}`
     };
   }
 
   handleSubmit = () => {
-    const {deck} = this.props.navigation.state.params;
-    const {question, answer} = this.state;
-    storageHelper.addCardToDeck(deck, {question, answer})
+    const {exercise} = this.props.navigation.state.params;
+    storageHelper.addExerciseMeasurement(exercise, this.state)
     .then(() => {
-      this.props.dispatch(addCard({question, answer}, deck));
+      this.props.addMeasurement(this.state, exercise);
       this.setState({
         question: '',
         answer: ''
@@ -58,13 +61,13 @@ export default class NewQuestion extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView behavior='padding'>
-        <QuestionInput
-          placeholder='Question'
-          onChangeText={question => this.setState({question})}
+        <MeasurementInput
+          placeholder='Note'
+          onChangeText={note => this.setState({note})}
         />
-        <QuestionInput
-          placeholder='Answer'
-          onChangeText={answer => this.setState({answer})}
+        <MeasurementInput
+          placeholder='Measurement'
+          onChangeText={measure => this.setState({measure})}
         />
         <SubmitButton onPress={this.handleSubmit}>
           <SubmitText>Submit</SubmitText>

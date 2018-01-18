@@ -1,26 +1,26 @@
 export const types = {
-  RECEIVE_DECKS: 'RECEIVE_DECKS',
-  ADD_DECK: 'ADD_DECK',
-  ADD_CARD: 'ADD_CARD'
+  RECEIVE_EXERCISES: 'RECEIVE_EXERCISES',
+  ADD_EXERCISE: 'ADD_EXERCISE',
+  ADD_MEASUREMENT: 'ADD_MEASUREMENT'
 };
 
-export function receiveDecks(decks) {
+export function receiveExercises(exercises) {
   return {
-    type: types.RECEIVE_DECKS,
-    payload: decks
+    type: types.RECEIVE_EXERCISES,
+    payload: exercises
   };
 }
 
-export function addDeck(deck) {
+export function addExercise(exercise) {
   return {
-    type: types.ADD_DECK,
-    payload: deck
+    type: types.ADD_EXERCISE,
+    payload: exercise
   };
 }
 
-export function addCard(card, deck) {
+export function addMeasurement(measurement, exercise) {
   return {
-    type: types.ADD_CARD,
-    payload: {card, deck}
+    type: types.ADD_MEASUREMENT,
+    payload: {measurement, exercise}
   };
 }

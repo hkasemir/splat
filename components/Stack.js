@@ -1,9 +1,9 @@
 import {StackNavigator} from 'react-navigation';
 import Tabs from './Tabs';
-import DeckList from '../views/DeckList';
-import Quiz from '../views/Quiz';
-import DeckView from '../views/DeckView';
-import NewQuestion from '../views/NewQuestion';
+import ExerciseList from '../views/ExerciseList';
+import Split from '../views/Split';
+import ExerciseView from '../views/ExerciseView';
+import NewMeasurement from '../views/NewMeasurement';
 
 export default StackNavigator({
   Home: {
@@ -12,16 +12,13 @@ export default StackNavigator({
       header: null
     }
   },
-  DeckList: {
-    screen: DeckList,
+  ExerciseView: {
+    screen: ExerciseView
   },
-  DeckView: {
-    screen: DeckView
+  Split: {
+    screen: Split
   },
-  Quiz: {
-    screen: Quiz
-  },
-  NewQuestion: {
-    screen: NewQuestion
+  NewMeasurement: {
+    screen: NewMeasurement
   }
 });

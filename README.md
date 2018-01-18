@@ -1,5 +1,6 @@
-# Study Buddy
-A React Native application (tested only for android, on my own device) that allows you to create decks of flash cards that you can use to study with!
+# Splat
+A React Native application (tested only for android, on my own device) that allows you to track your fitness stats including PRs for weight and speed.
+You can also calculate quick splits to find relative percentages of your PRs.
 
 To run, simply clone the repo, install packages with `npm start` and follow instructions to run on your own device using the Expo app.
 

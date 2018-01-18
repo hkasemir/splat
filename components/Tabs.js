@@ -1,18 +1,18 @@
 import {TabNavigator} from 'react-navigation';
-import DeckList from '../views/DeckList';
-import NewDeck from '../views/NewDeck';
+import ExerciseList from '../views/ExerciseList';
+import NewExercise from '../views/NewExercise';
 
 export default TabNavigator({
-  deckList: {
-    screen: DeckList,
+  ExerciseList: {
+    screen: ExerciseList,
     navigationOptions: {
-      tabBarLabel: 'Quiz Decks'
+      tabBarLabel: 'Exercises'
     }
   },
-  newDeck: {
-    screen: NewDeck,
+  NewExercise: {
+    screen: NewExercise,
     navigationOptions: {
-      tabBarLabel: 'New Deck'
+      tabBarLabel: 'New Exercise'
     }
   }},
   {

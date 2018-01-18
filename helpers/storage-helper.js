@@ -2,12 +2,16 @@ import {AsyncStorage} from 'react-native';
 /*
  * storage format:
 {
-  React: {
-    title: 'React',
-    questions: [
+  event_name: {
+    title: 'Event Name',
+    isPrHigh: true,
+    best: 200,
+    units: 'lbs',
+    measurements: [
       {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
+        date: '1/1/2018',
+        note: '3x3 @65%',
+        measure: 140
       }
     ]
   }
@@ -17,38 +21,45 @@ import {AsyncStorage} from 'react-native';
  *
  */
 
-const STORAGE_KEY = 'STUDY_BUDDY_STORAGE_KEY';
+const STORAGE_KEY = 'SPLAT_STORAGE_KEY';
 
-export function createDeck(title) {
+export function createExercise({title, units, isPrHigh}) {
   return {
     title,
-    questions: []
+    isPrHigh,
+    units,
+    best: null,
+    measurements: []
   };
 }
 
+export function makeExerciseKey(title) {
+  return title.toLowerCase().replace(' ', '_');
+}
+
 export default {
-  getDecks() {
+  getExercises() {
     return AsyncStorage.getItem(STORAGE_KEY)
     .then((results) => {
       return JSON.parse(results) || {};
     });
   },
-  getDeck(title) {
+  getExercise(title) {
     return AsyncStorage.getItem(STORAGE_KEY)
     .then((results) => {
-      const decks = JSON.parse(results);
-      return decks[key];
-    })
+      const exercises = JSON.parse(results) || {};
+      return exercises[makeExerciseKey(title)];
+    });
   },
-  saveDeckTitle(title) {
+  saveNewExercise(exercise) {
     return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify({
-      [title]: createDeck(title)
+      [makeExerciseKey(exercise.title)]: createExercise(exercise)
     }));
   },
-  addCardToDeck(deck, card) {
+  addExerciseMeasurement(exercise, measurement) {
     return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify({
-      [deck.title]: {
-        questions: [...deck.questions, card]
+      [makeExerciseKey(exercise.title)]: {
+        measurements: [...exercise.measurements, measurement]
       }
     }));
   }

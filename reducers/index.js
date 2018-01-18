@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
-import decks from './decks';
+import exercises from './exercises';
 
 export default combineReducers({
-  decks
+  exercises
 });

@@ -1,18 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {View, Text, FlatList, Animated, StyleSheet} from 'react-native';
-import DeckListItem from '../components/DeckListItem.js';
+import ExerciseListItem from '../components/ExerciseListItem';
 import storageHelper from '../helpers/storage-helper';
-import {receiveDecks} from '../actions';
+import {receiveExercises} from '../actions';
 
 const mapStateToProps = (state) => ({
-  decks: state.decks
+  exercises: state.exercises
 });
 
-@connect(mapStateToProps)
-export default class DeckList extends React.Component {
+const mapDispatchToProps = {
+  receiveExercises
+};
+
+@connect(mapStateToProps, mapDispatchToProps)
+export default class ExerciseList extends React.Component {
   static defaultProps = {
-    decks: {}
+    exercises: {}
   }
 
   state = {
@@ -20,12 +24,12 @@ export default class DeckList extends React.Component {
   }
 
   componentDidMount() {
-    storageHelper.getDecks().then(decks => {
-      this.props.dispatch(receiveDecks(decks));
+    storageHelper.getExercises().then(exercises => {
+      this.props.receiveExercises(exercises);
     });
   }
 
-  animateThenNavigate = (deck) => {
+  animateThenNavigate = (exercise) => {
     const {navigation} = this.props;
     const {animOpacity} = this.state;
 
@@ -33,7 +37,7 @@ export default class DeckList extends React.Component {
       animOpacity,
       {toValue: 0}
     ).start(() => {
-      navigation.navigate('DeckView', {deck})
+      navigation.navigate('ExerciseView', {exercise})
       Animated.timing(
         animOpacity,
         {toValue: 1}
@@ -41,20 +45,20 @@ export default class DeckList extends React.Component {
     });
   }
 
-  renderDeckListItem = ({item}) => {
-    const {decks, navigation} = this.props;
-    return <DeckListItem key={item} deck={decks[item]} onPress={this.animateThenNavigate}/>
+  renderExerciseListIem = ({item}) => {
+    const {exercises, navigation} = this.props;
+    return <ExerciseListItem key={item} exercise={exercises[item]} onPress={this.animateThenNavigate}/>
   }
 
   render() {
-    const {decks} = this.props;
+    const {exercises} = this.props;
     const {animOpacity} = this.state;
-    const deckNames = Object.keys(decks);
-    if (deckNames.length === 0) {
+    const exerciseNames = Object.keys(exercises);
+    if (exerciseNames.length === 0) {
       return (
         <View style={styles.homeView}>
-          <Text style={styles.emptyText}>No Decks Yet!</Text>
-          <Text style={styles.emptyText}>Add one by selecting 'New Deck'</Text>
+          <Text style={styles.emptyText}>No Exercises Yet!</Text>
+          <Text style={styles.emptyText}>Add one by selecting 'New Exercise'</Text>
         </View>
       )
     }
@@ -62,8 +66,8 @@ export default class DeckList extends React.Component {
       <Animated.View style={[styles.homeView, {opacity: animOpacity}]}>
         <FlatList
           style={{alignSelf: 'stretch'}}
-          data={deckNames}
-          renderItem={this.renderDeckListItem}
+          data={exerciseNames}
+          renderItem={this.renderExerciseListIem}
           keyExtractor={item => item}
         />
       </Animated.View>
