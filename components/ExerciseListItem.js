@@ -15,7 +15,13 @@ export default function ExerciseListItem({onPress, exercise}) {
   return (
     <ExerciseCard onPress={() => onPress(exercise)}>
       <Text>{exercise.title}</Text>
-      <Text>{exercise.best} {exercise.units}</Text>
+      {
+        exercise.best
+        ?
+        <Text>{exercise.best} {exercise.units}</Text>
+        :
+        <Text>No measurements yet</Text>
+      }
     </ExerciseCard>
   );
 }

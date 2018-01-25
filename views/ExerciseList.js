@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {View, Text, FlatList, Animated, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
 import ExerciseListItem from '../components/ExerciseListItem';
 import storageHelper from '../helpers/storage-helper';
 import {receiveExercises} from '../actions';
@@ -19,40 +19,25 @@ export default class ExerciseList extends React.Component {
     exercises: {}
   }
 
-  state = {
-    animOpacity: new Animated.Value(1)
-  }
-
   componentDidMount() {
     storageHelper.getExercises().then(exercises => {
+      console.log(exercises)
       this.props.receiveExercises(exercises);
     });
   }
 
-  animateThenNavigate = (exercise) => {
+  navigate = (exercise) => {
     const {navigation} = this.props;
-    const {animOpacity} = this.state;
-
-    Animated.timing(
-      animOpacity,
-      {toValue: 0}
-    ).start(() => {
-      navigation.navigate('ExerciseView', {exercise})
-      Animated.timing(
-        animOpacity,
-        {toValue: 1}
-      ).start()
-    });
+    navigation.navigate('ExerciseView', {exercise})
   }
 
   renderExerciseListIem = ({item}) => {
     const {exercises, navigation} = this.props;
-    return <ExerciseListItem key={item} exercise={exercises[item]} onPress={this.animateThenNavigate}/>
+    return <ExerciseListItem key={item} exercise={exercises[item]} onPress={this.navigate}/>
   }
 
   render() {
     const {exercises} = this.props;
-    const {animOpacity} = this.state;
     const exerciseNames = Object.keys(exercises);
     if (exerciseNames.length === 0) {
       return (
@@ -63,14 +48,14 @@ export default class ExerciseList extends React.Component {
       )
     }
     return (
-      <Animated.View style={[styles.homeView, {opacity: animOpacity}]}>
+      <View style={[styles.homeView]}>
         <FlatList
           style={{alignSelf: 'stretch'}}
           data={exerciseNames}
           renderItem={this.renderExerciseListIem}
           keyExtractor={item => item}
         />
-      </Animated.View>
+      </View>
     );
   }
 }

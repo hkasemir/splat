@@ -39,10 +39,12 @@ export function makeExerciseKey(title) {
 
 export default {
   getExercises() {
+    console.log('getting exercises')
     return AsyncStorage.getItem(STORAGE_KEY)
     .then((results) => {
+      console.log(results)
       return JSON.parse(results) || {};
-    });
+    }).catch(err => console.log(err));
   },
   getExercise(title) {
     return AsyncStorage.getItem(STORAGE_KEY)
@@ -52,9 +54,10 @@ export default {
     });
   },
   saveNewExercise(exercise) {
+    console.log(exercise)
     return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify({
-      [makeExerciseKey(exercise.title)]: createExercise(exercise)
-    }));
+      [makeExerciseKey(exercise.title)]: exercise
+    })).catch(err => console.log('storage error:', err));
   },
   addExerciseMeasurement(exercise, measurement) {
     return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify({

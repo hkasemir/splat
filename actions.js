@@ -12,6 +12,7 @@ export function receiveExercises(exercises) {
 }
 
 export function addExercise(exercise) {
+  console.log(exercise)
   return {
     type: types.ADD_EXERCISE,
     payload: exercise
